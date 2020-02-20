@@ -99,7 +99,7 @@ def ReadVectorMatrix(filename, vocab_set):
 
   matrix = {}
   for line in f:
-    tokens = line.strip().split()
+    tokens = line.strip().split(" ")
     if len(tokens) <= 2: #ignore w2v first line
       continue
     word = tokens[0]
@@ -145,7 +145,7 @@ def ComputeCCA(X, Y):
 
 def main():
   oracle_files = args.in_oracle.strip().split(",")
-  vocab_oracle = GetVocab(oracle_files, vocab_union=True, delim="\t")
+  vocab_oracle = GetVocab(oracle_files, vocab_union=True, delim=None)
   vocab_vectors = GetVocab([args.in_vectors], delim=" ")
   vocab_set = set(vocab_vectors) & set(vocab_oracle)
   if len(vocab_set) < 1000:

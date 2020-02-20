@@ -24,7 +24,7 @@ parser.add_argument("--verbose", action='store_true')
 args = parser.parse_args()
 
 
-def GetVocab(file_list, vocab_union=False):
+def GetVocab(file_list, vocab_union=False, delim=" "):
   def file_vocab(filename):
     vocab = set()
     binary_file = False
@@ -34,7 +34,7 @@ def GetVocab(file_list, vocab_union=False):
     else:
       f = open(filename)
     for line in f:
-      tokens = line.split()
+      tokens = line.split(delim)
       if len(tokens) <= 2: #ignore w2v first line
         continue
       word = tokens[0]
@@ -145,8 +145,8 @@ def ComputeCCA(X, Y):
 
 def main():
   oracle_files = args.in_oracle.strip().split(",")
-  vocab_oracle = GetVocab(oracle_files, vocab_union=True)
-  vocab_vectors = GetVocab([args.in_vectors])
+  vocab_oracle = GetVocab(oracle_files, vocab_union=True, delim="\t")
+  vocab_vectors = GetVocab([args.in_vectors], delim=" ")
   vocab_set = set(vocab_vectors) & set(vocab_oracle)
   if len(vocab_set) < 1000:
     print("*** Warning: vocabulary size is too small. ***")
